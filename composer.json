@@ -1,0 +1,26 @@
+{
+    "name": "cherif_b/slim4-laminas-form",
+    "authors": [
+        {
+            "name": "Cherif BOUCHELAGHEM",
+            "email": "cherif.bouchelaghem@gmail.com"
+        }
+    ],
+    "require": {
+        "slim/slim": "4.*",
+        "laminas/laminas-diactoros": "^2.2",
+        "slim/twig-view": "^3.0",
+        "php-di/php-di": "^6.0",
+        "laminas/laminas-form": "^2.14",
+        "laminas/laminas-servicemanager": "^3.4",
+        "laminas/laminas-captcha": "^2.9",
+        "laminas/laminas-i18n": "^2.10",
+        "laminas/laminas-view": "^2.11",
+        "laminas/laminas-escaper": "^2.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Cherif\\Demo\\": "src/"
+        }
+    }
+}

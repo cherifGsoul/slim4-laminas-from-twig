@@ -1,0 +1,17 @@
+<html>
+<head>
+    <title>Laminas Form</title>
+</head>
+<body>
+ <form method="POST" role="form">
+        <div class="form-group">
+            {{ formRow(form.get('username'))  }}
+        </div>
+        <div class="form-group">
+            {{ formRow(form.get('password'))  }}
+        </div>
+        {{ formElement(form.get('login')) }}
+    </form>
+ 
+</body>
+</html>
