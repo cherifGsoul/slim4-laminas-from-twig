@@ -5,8 +5,11 @@ use Slim\Factory\AppFactory;
 use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
 use DI\Container;
+use Laminas\Form\ConfigProvider;
+use Laminas\Form\View\Helper\FormElement;
 use Laminas\Form\View\HelperConfig;
 use Laminas\ServiceManager\ServiceManager;
+use Laminas\View\Renderer\PhpRenderer;
 use Twig\TwigFunction;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -32,13 +35,18 @@ $app->add(TwigMiddleware::create($app, $twig));
 
 $envi = $twig->getEnvironment();
 
-$sm = new ServiceManager();
-$helperConfig = (new HelperConfig())->configureServiceManager($sm);
+$helper = new FormElement();
+$renderer = new PhpRenderer();
 
-$envi->registerUndefinedFunctionCallback(function($name) use($sm, $envi){
+$helpers = $renderer->getHelperPluginManager();
+$config  = new HelperConfig();
+$serviceManager = $config->configureServiceManager($helpers);
+
+$helper->setView($renderer);
+
+$envi->registerUndefinedFunctionCallback(function($name) use($serviceManager){
 	
-	$helper = $sm->get($name);
-
+	$helper = $serviceManager->get($name);
 	$callable = [$helper, '__invoke'];
 	$options  = ['is_safe' => ['html']];
 	$fn = new TwigFunction($name, $callable, $options);
@@ -62,7 +70,7 @@ $envi->registerUndefinedFunctionCallback(function($name) use($sm, $envi){
 $errorMiddleware = $app->addErrorMiddleware(true, true, true);
 
 // Define app routes
-$app->get('/login', LoginHandler::class);
+$app->map(['GET', 'POST'], '/login', LoginHandler::class);
 
 // Run app
 $app->run();

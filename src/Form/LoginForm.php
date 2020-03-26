@@ -2,11 +2,14 @@
 
 namespace Cherif\Demo\Form;
 
+use Cherif\Demo\Command\LoginCommand;
 use Laminas\Form\Element\Password;
 use Laminas\Form\Element\Text;
 use Laminas\Form\Form;
+use Laminas\Hydrator\ClassMethodsHydrator;
+use Laminas\InputFilter\InputFilterProviderInterface;
 
-class LoginForm extends Form
+class LoginForm extends Form implements InputFilterProviderInterface
 {
 	public function __construct()
 	{
@@ -16,6 +19,7 @@ class LoginForm extends Form
 
 	public function init()
 	{
+		$this->setHydrator(new ClassMethodsHydrator());
 		$this->add([
 			'type' => Text::class,
 			'name' => 'username',
@@ -39,5 +43,19 @@ class LoginForm extends Form
 				'value' => 'Login'
 			]
 		]);
+	}
+
+	public function getInputFilterSpecification()
+	{
+		return [
+			[
+				'name' => 'username',
+				'required' => true
+			],
+			[
+				'name' => 'password',
+				'required' => true
+			]
+		];
 	}
 }
