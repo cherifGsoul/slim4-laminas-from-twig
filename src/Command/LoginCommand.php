@@ -6,6 +6,7 @@ class LoginCommand
 {
 	private $username;
 	private $password;
+	private $rememberMe;
 
 	/**
 	 * Get the value of username
@@ -41,5 +42,23 @@ class LoginCommand
 	public function setPassword($password)
 	{
 		$this->password = $password;
+	}
+
+	/**
+	 * Get the value of rememberMe
+	 */ 
+	public function getRememberMe()
+	{
+		return $this->rememberMe;
+	}
+
+	/**
+	 * Set the value of rememberMe
+	 *
+	 * @return  self
+	 */ 
+	public function setRememberMe($rememberMe)
+	{
+		$this->rememberMe = $rememberMe;
 	}
 }

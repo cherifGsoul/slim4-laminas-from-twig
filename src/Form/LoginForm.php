@@ -3,6 +3,7 @@
 namespace Cherif\Demo\Form;
 
 use Cherif\Demo\Command\LoginCommand;
+use Laminas\Form\Element\Checkbox;
 use Laminas\Form\Element\Password;
 use Laminas\Form\Element\Text;
 use Laminas\Form\Form;
@@ -41,6 +42,19 @@ class LoginForm extends Form implements InputFilterProviderInterface
 			'type' => 'submit',
 			'attributes' => [
 				'value' => 'Login'
+			]
+		]);
+
+		$this->add([
+			'type' => Checkbox::class,
+			'name' => 'rememberMe',
+			'options' => [
+				'label' => 'Remembe me!',
+				'checked_value' => 'yes',
+				'unchecked_value' => 'no',
+			],
+			'attributes' => [
+				'value' => 'no'
 			]
 		]);
 	}

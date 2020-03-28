@@ -18,7 +18,12 @@ class LoginHandler implements RequestHandlerInterface
 		$form->bind(new LoginCommand);
 		if ('POST' == $request->getMethod()) {
 			$form->setData($request->getParsedBody());
-			$form->isValid();
+			if ($form->isValid()) {
+				echo '<pre>';
+				var_dump($form->getData());
+				echo '</pre>';
+				exit;
+			}
 		}
 
 		return $view->render((new ResponseFactory())->createResponse(), 'login.twig',[

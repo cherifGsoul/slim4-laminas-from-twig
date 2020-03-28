@@ -1,14 +1,13 @@
 <?php
 
 use Cherif\Demo\Handler\LoginHandler;
+use Cherif\Demo\LaminasFromTwigExtension;
 use Slim\Factory\AppFactory;
 use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
 use DI\Container;
-use Laminas\Form\ConfigProvider;
 use Laminas\Form\View\Helper\FormElement;
 use Laminas\Form\View\HelperConfig;
-use Laminas\ServiceManager\ServiceManager;
 use Laminas\View\Renderer\PhpRenderer;
 use Twig\TwigFunction;
 
@@ -33,27 +32,34 @@ $app->addRoutingMiddleware();
 $twig = Twig::create('../templates', ['cache' => false]);
 $app->add(TwigMiddleware::create($app, $twig));
 
-$envi = $twig->getEnvironment();
+$twigEnvironment = $twig->getEnvironment();
 
-$helper = new FormElement();
-$renderer = new PhpRenderer();
+// $helper = new FormElement();
+// $renderer = new PhpRenderer();
 
-$helpers = $renderer->getHelperPluginManager();
-$config  = new HelperConfig();
-$serviceManager = $config->configureServiceManager($helpers);
+// $helpers = $renderer->getHelperPluginManager();
+// $config  = new HelperConfig();
+// // echo '<pre>' ;
+// // var_dump($config->toArray()['aliases']);
+// // echo '</pre>' ;
+// //exit;
+// $serviceManager = $config->configureServiceManager($helpers);
+// $renderer->setHelperPluginManager($config->configureServiceManager($helpers));
+// $helper->setView($renderer);
 
-$helper->setView($renderer);
-
-$envi->registerUndefinedFunctionCallback(function($name) use($serviceManager){
+// $envi->registerUndefinedFunctionCallback(function($name) use($serviceManager){
 	
-	$helper = $serviceManager->get($name);
-	$callable = [$helper, '__invoke'];
-	$options  = ['is_safe' => ['html']];
-	$fn = new TwigFunction($name, $callable, $options);
+// 	$helper = $serviceManager->get($name);
+// 	$callable = [$helper, '__invoke'];
+// 	$options  = ['is_safe' => ['html']];
+// 	$fn = new TwigFunction($name, $callable, $options);
 	
-	return $fn;
+// 	return $fn;
 
-});
+// });
+
+$formExtension = new LaminasFromTwigExtension(new FormElement(), new PhpRenderer(), new HelperConfig);
+$twigEnvironment->addExtension($formExtension);
 
 
 /**
